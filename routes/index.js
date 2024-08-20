@@ -5,13 +5,13 @@ const passport = require('../config/passport')
 const restaurantController = require('../controllers/restaurant-controller')
 const userController = require('../controllers/user-controller')
 const { generalErrorHandler } = require('../middlewares/error-handler')
-const { authenticated } = require('../middlewares/auth')
+const { authenticated, authenticatedAdmin } = require('../middlewares/auth')
 
 const admin = require('./modules/admin')
 
 router.use(express.urlencoded({ extended: true }))
 
-router.use('/admin', admin)
+router.use('/admin', authenticatedAdmin, admin)
 router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
 router.get('/signin', userController.signInPage)
