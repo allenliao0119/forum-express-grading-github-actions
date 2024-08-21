@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {
     sequelize,
-    modelName: 'Restaurants',
+    modelName: 'Restaurant',
     tableName: 'Restaurants',
     underscored: true
   })
