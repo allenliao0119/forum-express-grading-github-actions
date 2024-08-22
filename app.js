@@ -7,6 +7,7 @@ const methodOverride = require('method-override')
 const passport = require('passport')
 const { getUser } = require('./helpers/auth-helpers')
 const routes = require('./routes')
+const path = require('path')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -16,6 +17,7 @@ app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelper }))
 app.set('view engine', 'hbs')
 
 app.use(methodOverride('_method'))
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())

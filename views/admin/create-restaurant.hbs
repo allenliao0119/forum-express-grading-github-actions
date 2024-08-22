@@ -1,4 +1,4 @@
-<form action="/admin/restaurants" method="POST">
+<form action="/admin/restaurants" method="POST" enctype="multipart/form-data">
   <div class="mb-4 text-center">
     <h1 class="h3 font-weight-normal mb-3">Create Restaurant</h1>
   </div>
@@ -6,4 +6,5 @@
   {{> admin-restaurant-form}}
 
   <button type="submit" class="btn btn-primary">Submit</button>
+  <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
 </form>
