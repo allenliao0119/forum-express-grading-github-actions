@@ -6,5 +6,8 @@ module.exports = {
   },
   toggle: boolean => {
     return !boolean
+  },
+  ifEqual: function (a, b, options) {
+    return a === b ? options.fn(this) : options.inverse(this)
   }
 }
