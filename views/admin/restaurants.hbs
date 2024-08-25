@@ -1,13 +1,6 @@
 <h1>餐廳後台</h1>
 <div class="row">
-  <ul class="nav">
-    <li class="nav-item">
-      <a class="nav-link border-end active" aria-current="page" href="/admin/restaurants">Restaurants</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/users">Users</a>
-    </li>
-  </ul>
+  {{> admin-tabs route='restaurants'}}
 </div>
 <br />
 <a href='/admin/restaurants/create'>
