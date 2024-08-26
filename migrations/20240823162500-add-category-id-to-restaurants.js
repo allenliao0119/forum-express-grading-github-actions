@@ -8,7 +8,9 @@ module.exports = {
       references: {
         model: 'Categories',
         key: 'id'
-      }
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     })
   },
 

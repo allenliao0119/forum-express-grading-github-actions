@@ -3,6 +3,19 @@
   {{> admin-tabs route='categories'}}
 </div>
 <br />
+{{#if category}}
+<form action="/admin/categories/{{category.id}}?_method=PUT" method="POST" style="display: inline;">
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" aria-label="category" placeholder="Category Name" value="{{category.name}}" name="name">
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-warning">Update</button>
+      <a href="/admin/categories" class="btn btn-link">or Create New</a>
+    </div>
+  </div>
+</form>
+{{else}}
 <form action="/admin/categories" method="POST" style="display: inline;">
   <div class="row">
     <div class="col">
@@ -13,6 +26,7 @@
     </div>
   </div>
 </form>
+{{/if}}
 <br />
 <br />
 <table class="table align-middle ">
@@ -29,11 +43,9 @@
       <th scope="row">{{this.id}}</th>
       <td>{{this.name}}</td>
       <td>
-        <form action="/admin/categories/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">Edit</button>
-        </form>
+        <a href="/admin/categories/{{this.id}}" class="btn btn-link">Edit</a>
         <form action="/admin/categories/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link text-danger" onclick="return confirm(`確定要刪除{{this.name}}類別嗎?`)">Delete</button>
+          <button type="submit" class="btn btn-link text-danger" onclick="return confirm(`確定要刪除{{this.name}}類別和這個類別內的所有餐廳嗎?`)">Delete</button>
         </form>
       </td>
     </tr>
