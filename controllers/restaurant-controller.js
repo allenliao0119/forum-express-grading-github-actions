@@ -1,6 +1,5 @@
-const { restart } = require('nodemon')
 const { Restaurant, Category } = require('../models')
-const restaurantController = {
+const restController = {
   getRestaurants: (req, res, next) => {
     return Restaurant.findAll({
       include: [Category],
@@ -26,9 +25,23 @@ const restaurantController = {
     })
       .then(restaurant => {
         if (!restaurant) throw new Error("restaurant didn't exist")
-        res.render('restaurant', { restaurant })
+        restaurant.increment('viewCounts', { by: 1 })
+          .then(() => res.render('restaurant', { restaurant }))
+      })
+      .catch(err => next(err))
+  },
+  getDashboard: (req, res, next) => {
+    return Restaurant.findByPk(req.params.id, {
+      attributes: ['name', 'viewCounts'],
+      include: [Category],
+      nest: true,
+      raw: true
+    })
+      .then(restaurant => {
+        if (!restaurant) throw new Error("restaurant didn't exist")
+        res.render('dashboard', { restaurant })
       })
       .catch(err => next(err))
   }
 }
-module.exports = restaurantController
+module.exports = restController

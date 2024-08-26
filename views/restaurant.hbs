@@ -13,11 +13,12 @@
         <li><strong>Tel:</strong> {{restaurant.tel}}</li>
         <li><strong>Address:</strong> {{restaurant.address}}</li>
       </ul>
+      <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-primary">Dashboard</a>
     </div>
   </div>
   <div class="col-md-8">
     <p style="white-space: break-spaces;">{{restaurant.description}}</p>
   </div>
-  <hr>
+  <hr class="mt-2">
 </div>
 <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
