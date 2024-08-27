@@ -4,6 +4,7 @@ const passport = require('../config/passport')
 
 const restController = require('../controllers/restaurant-controller')
 const userController = require('../controllers/user-controller')
+const commentController = require('../controllers/comment-controller')
 const { generalErrorHandler } = require('../middlewares/error-handler')
 const { authenticated, authenticatedAdmin } = require('../middlewares/auth')
 
@@ -21,6 +22,7 @@ router.get('/restaurants', authenticated, restController.getRestaurants)
 
 router.post('/signup', userController.signUp)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureMessage: true }), userController.signIn)
+router.post('/comments', authenticated, commentController.postComment)
 router.use('/', (req, res) => res.redirect('/restaurants'))
 router.use('/', generalErrorHandler)
 
