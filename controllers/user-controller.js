@@ -1,7 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const { User } = db
-const { LocalFileHelper } = require('../helpers/file-helpers')
+const { localFileHandler } = require('../helpers/file-helpers')
+const { getUser } = require('../helpers/auth-helpers')
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
@@ -40,10 +41,41 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
+    if (Number(req.params.id) !== getUser(req).id) throw new Error('permission denied')
     return User.findByPk(req.params.id, { raw: true })
       .then(user => {
         if (!user) throw new Error("user didn't exist")
-        res.render('profile')
+        res.render('users/profile', { user })
+      })
+      .catch(err => next(err))
+  },
+  editUser: (req, res, next) => {
+    if (Number(req.params.id) !== getUser(req).id) throw new Error('permission denied')
+    return User.findByPk(req.params.id, { raw: true })
+      .then(user => {
+        if (!user) throw new Error("user didn't exist")
+        res.render('users/edit', { user })
+      })
+  },
+  putUser: (req, res, next) => {
+    if (Number(req.params.id) !== getUser(req).id) throw new Error('permission denied')
+    const { file } = req
+    const { name } = req.body
+    if (!name) throw new Error('name is required')
+    return Promise.all([
+      User.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([user, filePath]) => {
+        if (!user) throw new Error("user didn't exist")
+        return user.update({
+          name: req.body.name,
+          image: filePath || user.image
+        })
+      })
+      .then(user => {
+        req.flash('success_messages', '使用者資料編輯成功')
+        res.redirect(`/users/${user.id}`)
       })
       .catch(err => next(err))
   }

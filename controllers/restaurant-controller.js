@@ -60,9 +60,10 @@ const restController = {
       .then(restaurant => {
         if (!restaurant) throw new Error("restaurant didn't exist")
         restaurant = restaurant.toJSON()
+        const commentCount = restaurant.Comments ? restaurant.Comments.length : '-'
         res.render('dashboard', {
           restaurant,
-          commentCount: restaurant.Comments.length
+          commentCount
         })
       })
       .catch(err => next(err))
