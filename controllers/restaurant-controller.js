@@ -48,7 +48,6 @@ const restController = {
         return restaurant.increment('viewCounts', { by: 1 })
       })
       .then(restaurant => {
-        console.log(req.session)
         res.render('restaurant', { restaurant: restaurant.toJSON() })
       })
       .catch(err => next(err))
@@ -56,13 +55,15 @@ const restController = {
   getDashboard: (req, res, next) => {
     return Restaurant.findByPk(req.params.id, {
       attributes: ['name', 'viewCounts'],
-      include: [Category],
-      nest: true,
-      raw: true
+      include: [Category, Comment]
     })
       .then(restaurant => {
         if (!restaurant) throw new Error("restaurant didn't exist")
-        res.render('dashboard', { restaurant })
+        restaurant = restaurant.toJSON()
+        res.render('dashboard', {
+          restaurant,
+          commentCount: restaurant.Comments.length
+        })
       })
       .catch(err => next(err))
   }
