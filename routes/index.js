@@ -11,7 +11,6 @@ const { authenticated, authenticatedAdmin } = require('../middlewares/auth')
 const admin = require('./modules/admin')
 
 router.use(express.urlencoded({ extended: true }))
-
 router.use('/admin', authenticatedAdmin, admin)
 router.get('/signup', userController.signUpPage)
 router.get('/signin', userController.signInPage)
@@ -19,7 +18,7 @@ router.get('/logout', userController.signOut)
 router.get('/restaurants/:id/dashboard', authenticated, restController.getDashboard)
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 router.get('/restaurants', authenticated, restController.getRestaurants)
-
+router.get('/users/:id', authenticated, userController.getUser)
 router.post('/signup', userController.signUp)
 router.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureMessage: true }), userController.signIn)
 router.post('/comments', authenticated, commentController.postComment)
