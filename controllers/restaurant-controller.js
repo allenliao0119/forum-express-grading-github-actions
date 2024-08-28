@@ -47,7 +47,10 @@ const restController = {
         if (!restaurant) throw new Error("restaurant didn't exist")
         return restaurant.increment('viewCounts', { by: 1 })
       })
-      .then(restaurant => res.render('restaurant', { restaurant: restaurant.toJSON() }))
+      .then(restaurant => {
+        console.log(req.session)
+        res.render('restaurant', { restaurant: restaurant.toJSON() })
+      })
       .catch(err => next(err))
   },
   getDashboard: (req, res, next) => {

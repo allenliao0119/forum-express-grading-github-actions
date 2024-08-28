@@ -22,14 +22,21 @@
   <hr class="mt-2">
 </div>
 {{!-- comment --}}
+
+{{user.name}}
 <h3 class="mb-3">所有評論：</h3>
 {{#each restaurant.Comments}}
-<blockquote class="blockquote mb-0">
-  <h4><a href="/users/{{this.User.id}}">{{this.User.name}}</a></h4>
-  <p>{{this.text}}</p>
-  <footer class="blockquote-footer">{{relativeTimeFromNow this.createdAt}}</footer>
-</blockquote>
-<hr />
+  <blockquote class="blockquote mb-0">
+    <h4><a href="/users/{{this.User.id}}">{{this.User.name}}</a></h4>
+    {{#if ../user.isAdmin}}
+    <form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="float-end">
+      <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除這則評論嗎?')">Delete</button>
+    </form>
+    {{/if}}
+    <p>{{this.text}}</p>
+    <footer class="blockquote-footer">{{relativeTimeFromNow this.createdAt}}</footer>
+  </blockquote>
+  <hr />
 {{/each}}
 <form action="/comments" method="POST">
   <div class="mb-3">
