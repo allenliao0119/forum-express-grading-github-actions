@@ -1,0 +1,52 @@
+{{> restaurant-tabs route='/restaurants/feeds'}}
+<h1>最新動態</h1>
+<hr />
+<div class="row mt-5">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        最新餐廳
+      </div>
+      <div class="card-body row">
+        {{#each restaurants}}
+        <div class="col-8">
+          <h4>
+            <a class="link-primary" href="/restaurants/{{this.id}}">{{this.name}}</a>
+            <a href="/restaurants?categoryId={{this.Category.id}}"><small class="fs-6">[{{this.Category.name}}]</small></a>
+          </h4>
+          <p class="my-4" style="white-space: break-spaces;">{{this.description}}</p>
+          {{relativeTimeFromNow this.createdAt}}
+        </div>
+        <div class="col-4 mb-2">
+          <img src="{{this.image}}" class="w-100">
+        </div>
+        <hr>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        最新評論
+      </div>
+      <div class="card-body row">
+        {{#each comments}}
+        <div class="col-8">
+          <h4>
+            <a class="link-primary" href="/restaurants/{{this.Restaurant.id}}">{{this.Restaurant.name}}</a>
+          </h4>
+          <p class="my-4" style="white-space: break-spaces;">{{this.text}}</p>
+          - <a class="link-secondary" href="/users/{{this.User.id}}">{{this.User.name}}</a>
+          <small>at {{relativeTimeFromNow this.createdAt}}</small>
+          
+        </div>
+        <div class="col-4 mb-2">
+          <img src="{{this.Restaurant.image}}" class="w-100">
+        </div>
+        <hr>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
