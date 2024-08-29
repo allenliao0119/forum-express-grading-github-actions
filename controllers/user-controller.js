@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const { User } = db
+const { User, Comment, Restaurant } = db
 const { localFileHandler } = require('../helpers/file-helpers')
 const { getUser } = require('../helpers/auth-helpers')
 const userController = {
@@ -42,10 +42,18 @@ const userController = {
   },
   getUser: (req, res, next) => {
     if (Number(req.params.id) !== getUser(req).id) throw new Error('permission denied')
-    return User.findByPk(req.params.id, { raw: true })
-      .then(user => {
-        if (!user) throw new Error("user didn't exist")
-        res.render('users/profile', { user })
+    return Promise.all([
+      User.findByPk(req.params.id, { raw: true }),
+      Comment.findAll({
+        where: { userId: req.params.id },
+        include: [Restaurant],
+        nest: true,
+        raw: true
+      })
+    ])
+      .then(([user, comments]) => {
+        console.log(comments)
+        res.render('users/profile', { user, comments })
       })
       .catch(err => next(err))
   },
