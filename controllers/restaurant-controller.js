@@ -8,6 +8,7 @@ const restController = {
     const page = Number(req.query.page) || 1
     const offset = getOffset(limit, page)
     const categoryId = Number(req.query.categoryId) || ''
+    // console.log('user:', req.user)
     return Promise.all([
       Restaurant.findAndCountAll({
         where: categoryId ? { categoryId } : {},
@@ -20,10 +21,12 @@ const restController = {
       Category.findAll({ raw: true })
     ])
       .then(([restaurants, categories]) => {
+        const favoritedRestaurantId = req.user.FavoritedRestaurants.map(favoriteRest => favoriteRest.id) 
         const data = restaurants.rows.map(restaurant => {
           return {
             ...restaurant,
-            description: restaurant.description.substring(0, DEFAULT_DESCRIPTION_LIMIT)
+            description: restaurant.description.substring(0, DEFAULT_DESCRIPTION_LIMIT),
+            isFavorited: req.user && favoritedRestaurantId.includes(restaurant.id)
           }
         })
         return res.render('restaurants', {
@@ -39,7 +42,8 @@ const restController = {
     Restaurant.findByPk(req.params.id, {
       include: [
         Category,
-        { model: Comment, include: User }
+        { model: Comment, include: User },
+        { model: User, as: 'FavoritedUsers' }
       ],
       nest: true
     })
@@ -48,7 +52,11 @@ const restController = {
         return restaurant.increment('viewCounts', { by: 1 })
       })
       .then(restaurant => {
-        res.render('restaurant', { restaurant: restaurant.toJSON() })
+        const isFavorited = restaurant.FavoritedUsers.some(user => user.id === req.user.id)
+        res.render('restaurant', {
+          restaurant: restaurant.toJSON(),
+          isFavorited
+        })
       })
       .catch(err => next(err))
   },
