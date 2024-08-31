@@ -8,7 +8,6 @@ const restController = {
     const page = Number(req.query.page) || 1
     const offset = getOffset(limit, page)
     const categoryId = Number(req.query.categoryId) || ''
-    // console.log('user:', req.user)
     return Promise.all([
       Restaurant.findAndCountAll({
         where: categoryId ? { categoryId } : {},
@@ -21,7 +20,7 @@ const restController = {
       Category.findAll({ raw: true })
     ])
       .then(([restaurants, categories]) => {
-        const favoritedRestaurantId = req.user.FavoritedRestaurants.map(favoriteRest => favoriteRest.id) 
+        const favoritedRestaurantId = req.user.FavoritedRestaurants.map(favoriteRest => favoriteRest.id)
         const data = restaurants.rows.map(restaurant => {
           return {
             ...restaurant,
