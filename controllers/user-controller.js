@@ -1,9 +1,8 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
-const { User, Comment, Restaurant, Favorite, Like } = db
+const { User, Comment, Restaurant, Favorite, Like, Followship } = db
 const { localFileHandler } = require('../helpers/file-helpers')
 const { getUser } = require('../helpers/auth-helpers')
-const { raw } = require('express')
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
@@ -162,20 +161,53 @@ const userController = {
     return User.findAll({
       include: [
         { model: User, as: 'Followers' }
-      ],
-      raw: true,
-      nest: true
+      ]
     })
       .then(users => {
-        users = users.map(user => {
-          return {
-            ...user,
+        const result = users
+          .map(user => ({
+            ...user.toJSON(),
             followerCount: user.Followers.length,
             isFollowed: getUser(req).Followings.some(following => following.id === user.id)
-          }
-        })
-        res.render('top-user', { users })
+          }))
+          .sort((a, b) => b.followerCount - a.followerCount)
+        res.render('top-user', { users: result })
       })
+      .catch(err => next(err))
+  },
+  addFollowing: (req, res, next) => {
+    const userId = req.params.userId
+    return Promise.all([
+      User.findByPk(userId),
+      Followship.findOne({
+        where: {
+          followerId: getUser(req).id,
+          followingId: userId
+        }
+      })
+    ])
+      .then(([user, following]) => {
+        if (!user) throw new Error("user didn't exist")
+        if (following) throw new Error('You have followed this user!')
+        return Followship.create({
+          followerId: getUser(req).id,
+          followingId: userId
+        })
+      })
+      .then(() => res.redirect('back'))
+      .catch(err => next(err))
+  },
+  removeFollowing: (req, res, next) => {
+    const userId = req.params.userId
+    return Followship.findOne({
+      followerId: getUser(req).id,
+      followingId: userId
+    })
+      .then(following => {
+        if (!following) throw new Error("You haven't followed this user!")
+        return following.destroy()
+      })
+      .then(() => res.redirect('back'))
       .catch(err => next(err))
   }
 }
