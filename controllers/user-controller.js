@@ -3,6 +3,7 @@ const db = require('../models')
 const { User, Comment, Restaurant, Favorite, Like } = db
 const { localFileHandler } = require('../helpers/file-helpers')
 const { getUser } = require('../helpers/auth-helpers')
+const { raw } = require('express')
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
@@ -155,6 +156,26 @@ const userController = {
         return like.destroy()
       })
       .then(() => res.redirect('back'))
+      .catch(err => next(err))
+  },
+  getTopUsers: (req, res, next) => {
+    return User.findAll({
+      include: [
+        { model: User, as: 'Followers' }
+      ],
+      raw: true,
+      nest: true
+    })
+      .then(users => {
+        users = users.map(user => {
+          return {
+            ...user,
+            followerCount: user.Followers.length,
+            isFollowed: getUser(req).Followings.some(following => following.id === user.id)
+          }
+        })
+        res.render('top-user', { users })
+      })
       .catch(err => next(err))
   }
 }
