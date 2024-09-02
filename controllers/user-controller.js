@@ -91,18 +91,22 @@ const userController = {
     const { restaurantId } = req.params
     return Promise.all([
       Restaurant.findByPk(restaurantId),
-      Favorite.findOrCreate({
+      Favorite.findOne({
         where: {
           restaurantId,
           userId: getUser(req).id
         }
       })
     ])
-      .then(([restaurant, [favorite, created]]) => {
+      .then(([restaurant, favoritedRest]) => {
         if (!restaurant) throw new Error("restaurant didn't exist")
-        if (!created) throw new Error('You have favorited this restaurant!')
-        res.redirect('back')
+        if (favoritedRest) throw new Error('You have favorited this restaurant!')
+        return Favorite.create({
+          restaurantId,
+          userId: getUser(req).id
+        })
       })
+      .then(() => res.redirect('back'))
       .catch(err => next(err))
   },
   removeFavorite: (req, res, next) => {
@@ -171,7 +175,7 @@ const userController = {
             isFollowed: getUser(req).Followings.some(following => following.id === user.id)
           }))
           .sort((a, b) => b.followerCount - a.followerCount)
-        res.render('top-user', { users: result })
+        res.render('top-users', { users: result })
       })
       .catch(err => next(err))
   },
