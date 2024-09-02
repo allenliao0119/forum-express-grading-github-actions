@@ -42,7 +42,7 @@ const userController = {
   },
   getUser: (req, res, next) => {
     const userId = req.params.id
-    if (Number(userId) !== getUser(req).id) throw new Error('permission denied')
+    const isPersonal = Number(userId) === getUser(req).id
     return Promise.all([
       User.findByPk(userId, {
         include: [
@@ -65,7 +65,8 @@ const userController = {
           commentCount: comments.length,
           favoritedCount: user.FavoritedRestaurants.length,
           followerCount: user.Followers.length,
-          followingCount: user.Followings.length
+          followingCount: user.Followings.length,
+          isPersonal
         })
       })
       .catch(err => next(err))
