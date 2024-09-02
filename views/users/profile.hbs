@@ -1,31 +1,103 @@
 <div class="container">
-  <div class="row border border-1 p-3 h-75">
-    <div class="col-4">
-      <img src="{{user.image}}" alt="user image" class="img w-75">
+  <div class="row border border-1 rounded p-2 h-75">
+    <div class="col-xxl-4 col-md-6 col-sm-12 m-auto">
+      <img src="{{user.image}}" alt="user image" class="img h-100 mw-100">
     </div>
-    <div class="col-8">
-      <h2 class="fw-bold">{{user.name}}</h2>
-      <p>{{user.email}}</p>
-      <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
+    <div class="col-xxl-8 col-md-6 col-sm-12  ">
+      <div class="row">
+        <div class="col-xxl-6">
+          <h2 class="fw-bold">{{user.name}}</h2>
+          <p>{{user.email}}</p>
+          <p>{{commentCount}}間已評論餐廳</p>
+          <p>{{favoritedCount}}間已收藏餐廳</p>
+          <p>{{followerCount}}位追蹤者</p>
+          <p>{{followingCount}}位您正在追蹤</p>
+        </div>
+        <div class="col-xxl-6 position-relative">
+          <a href="/users/{{user.id}}/edit" class="btn btn-primary position-absolute bottom-0 end-0 m-1">編輯</a>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row my-3 border border-1 h-25">
-    <div class="col-12 border border-1 w-100 p-3" style="background-color:lightgray;">
-      <span class="m-0 fw-bold">已評論餐廳</span>
-    </div>
-    <div class="col-12">
-      <div class="row p-4 justify-content-start gx-auto">
-        {{#if comments}}
-        {{#each comments}}
-        <div class="col-1 mt-1">
-          <a href="/restaurants/{{this.Restaurant.id}}">
-            <img src="{{this.Restaurant.image}}" class="w-100">
-          </a>
+  <div class="row d-flex justify-content-around h-25 mt-3">
+    <div class="col-4 ps-0">
+      {{!-- 追蹤者 --}}
+      <div class="card w-100">
+        <div class="card-header">
+          {{followerCount}}位追蹤者
         </div>
-        {{/each}}
-        {{else}}
-        <span>尚未評論過餐廳</span>
-        {{/if}}
+        <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
+          {{#if Followers}}
+          {{#each Followers}}
+          <div class="col-lg-2 col-4 mt-1">
+            <a href="/users/{{this.id}}">
+              <img src="{{this.image}}" class="w-100">
+            </a>
+          </div>
+          {{/each}}
+          {{else}}
+          <span>尚未有追蹤者</span>
+          {{/if}}
+        </div>
+      </div>
+      {{!-- 正在追蹤 --}}
+      <div class="card w-100 mt-2">
+        <div class="card-header">
+          {{followingCount}}位您正在追蹤
+        </div>
+        <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
+          {{#if user.Followings}}
+          {{#each user.Followings}}
+          <div class="col-lg-2 col-4 mt-1 me-1">
+            <a href="/users/{{this.id}}">
+              <img src="{{this.image}}" class="w-100">
+            </a>
+          </div>
+          {{/each}}
+          {{else}}
+          <span>尚未有您正在追蹤的使用者</span>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    <div class="col-8 pe-0">
+      {{!-- 已評論餐廳 --}}
+      <div class="card w-100">
+        <div class="card-header">
+          {{commentCount}}間已評論餐廳
+        </div>
+        <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
+          {{#if comments}}
+          {{#each comments}}
+          <div class="col-lg-1 col-2 mt-1 me-1">
+            <a href="/restaurants/{{this.Restaurant.id}}">
+              <img src="{{this.Restaurant.image}}" class="w-100">
+            </a>
+          </div>
+          {{/each}}
+          {{else}}
+          <span>尚未評論過餐廳</span>
+          {{/if}}
+        </div>
+      </div>
+      {{!-- 已收藏餐廳 --}}
+      <div class="card w-100 mt-2">
+        <div class="card-header">
+          {{favoritedCount}}已收藏餐廳
+        </div>
+        <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
+          {{#if user.FavoritedRestaurants}}
+          {{#each user.FavoritedRestaurants}}
+          <div class="col-lg-1 col-3 mt-1">
+            <a href="/restaurants/{{this.id}}">
+              <img src="{{this.image}}" class="w-100">
+            </a>
+          </div>
+          {{/each}}
+          {{else}}
+          <span>尚未有收藏餐廳</span>
+          {{/if}}
+        </div>
       </div>
     </div>
   </div>

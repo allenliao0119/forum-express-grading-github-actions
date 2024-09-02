@@ -41,19 +41,32 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    if (Number(req.params.id) !== getUser(req).id) throw new Error('permission denied')
+    const userId = req.params.id
+    if (Number(userId) !== getUser(req).id) throw new Error('permission denied')
     return Promise.all([
-      User.findByPk(req.params.id, { raw: true }),
+      User.findByPk(userId, {
+        include: [
+          { model: Restaurant, as: 'FavoritedRestaurants' },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
+        ]
+      }),
       Comment.findAll({
-        where: { userId: req.params.id },
+        where: { userId },
         include: [Restaurant],
         nest: true,
         raw: true
       })
     ])
       .then(([user, comments]) => {
-        console.log(comments)
-        res.render('users/profile', { user, comments })
+        res.render('users/profile', {
+          user: user.toJSON(),
+          comments,
+          commentCount: comments.length,
+          favoritedCount: user.FavoritedRestaurants.length,
+          followerCount: user.Followers.length,
+          followingCount: user.Followings.length
+        })
       })
       .catch(err => next(err))
   },
