@@ -1,16 +1,28 @@
 const { Restaurant, User, Category } = require('../models')
 
 const { localFileHandler } = require('../helpers/file-helpers')
+const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const adminController = {
   getRestaurants: (req, res, next) => {
-    return Restaurant.findAll({
+    const DEFAULT_REST_LIMEIT = 20
+    const page = Number(req.query.page) || 1
+    console.log('page:', page)
+    const offset = getOffset(DEFAULT_REST_LIMEIT, page)
+    return Restaurant.findAndCountAll({
+      include: [Category],
       raw: true,
       nest: true,
-      include: [Category]
+      offset,
+      limit: DEFAULT_REST_LIMEIT
     })
-      .then(restaurants => {
-        return res.render('admin/restaurants', { restaurants })
+      .then(restaurant => {
+        const pagination = getPagination(DEFAULT_REST_LIMEIT, page, restaurant.count)
+        console.log('currentPage:', pagination.currentPage)
+        return res.render('admin/restaurants', {
+          restaurants: restaurant.rows,
+          pagination
+        })
       })
       .catch(err => next(err))
   },
