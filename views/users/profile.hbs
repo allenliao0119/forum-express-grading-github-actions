@@ -8,10 +8,10 @@
         <div class="col-xxl-6">
           <h2 class="fw-bold">{{user.name}}</h2>
           <p>{{user.email}}</p>
-          <p>{{commentCount}}間已評論餐廳</p>
-          <p>{{favoritedCount}}間已收藏餐廳</p>
-          <p>{{followerCount}}位追蹤者</p>
-          <p>{{followingCount}}位您正在追蹤</p>
+          <p>{{commentCount}} 間已評論餐廳</p>
+          <p>{{favoritedCount}} 間已收藏餐廳</p>
+          <p>{{followerCount}} 位追蹤者</p>
+          <p>{{followingCount}} 位您正在追蹤</p>
         </div>
         {{#if isPersonal}}
         <div class="col-xxl-6 position-relative">
@@ -26,7 +26,7 @@
       {{!-- 追蹤者 --}}
       <div class="card w-100 shadow-sm">
         <div class="card-header">
-          {{followerCount}}位追蹤者
+          {{followerCount}} 位追蹤者
         </div>
         <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
           {{#if Followers}}
@@ -45,7 +45,7 @@
       {{!-- 正在追蹤 --}}
       <div class="card w-100 mt-2 shadow-sm">
         <div class="card-header">
-          {{followingCount}}位您正在追蹤
+          {{followingCount}} 位您正在追蹤的使用者
         </div>
         <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
           {{#if user.Followings}}
@@ -66,7 +66,7 @@
       {{!-- 已評論餐廳 --}}
       <div class="card w-100 shadow-sm">
         <div class="card-header">
-          {{commentCount}}間已評論餐廳
+          {{commentCount}} 間已評論餐廳
         </div>
         <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
           {{#if comments}}
@@ -85,7 +85,7 @@
       {{!-- 已收藏餐廳 --}}
       <div class="card w-100 mt-2 shadow-sm">
         <div class="card-header">
-          {{favoritedCount}}已收藏餐廳
+          {{favoritedCount}} 間已收藏餐廳
         </div>
         <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
           {{#if user.FavoritedRestaurants}}

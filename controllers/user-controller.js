@@ -59,15 +59,23 @@ const userController = {
       })
     ])
       .then(([user, comments]) => {
+        const filtedComments = []
+        comments.forEach(comment => {
+          if (!filtedComments.some(c => c.Restaurant.id === comment.Restaurant.id)) {
+            filtedComments.push(comment)
+          }
+        })
+        console.log(filtedComments)
         res.render('users/profile', {
           user: user.toJSON(),
-          comments,
+          comments: filtedComments,
           commentCount: comments.length,
           favoritedCount: user.FavoritedRestaurants.length,
           followerCount: user.Followers.length,
           followingCount: user.Followings.length,
           isPersonal
         })
+        // console.log(comments)
       })
       .catch(err => next(err))
   },
