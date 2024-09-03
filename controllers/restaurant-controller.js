@@ -127,7 +127,7 @@ const restController = {
             return {
               ...restaurant.toJSON(),
               favoritedCount: restaurant.FavoritedUsers.length,
-              isFavorited: req.user && req.user.FavoritedRestaurants.some(favoriteRest => favoriteRest.id === restaurant.id)
+              isFavorited: getUser(req) && getUser(req).FavoritedRestaurants.some(favoriteRest => favoriteRest.id === restaurant.id)
             }
           })
           .sort((a, b) => b.favoritedCount - a.favoritedCount)
