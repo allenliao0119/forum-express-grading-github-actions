@@ -16,23 +16,23 @@
     </div>
     
     <div>
-      <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-primary m-1">Dashboard</a>
+      <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-primary m-1"><i class="fa-solid fa-gauge"></i> Dashboard</a>
       {{#if isFavorited}}
       <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-danger m-1">移除最愛</button>
+        <button type="submit" class="btn btn-danger m-1"><i class="fa-regular fa-heart"></i> 移除最愛</button>
       </form>
       {{else}}
       <form action="/favorite/{{restaurant.id}}" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-primary m-1">加到最愛</button>
+        <button type="submit" class="btn btn-primary m-1"><i class="fa-solid fa-heart"></i> 加到最愛</button>
       </form>
       {{/if}}
       {{#if isLiked}}
       <form action="/like/{{restaurant.id}}?_method=DELETE" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-danger m-1">Unlike</button>
+        <button type="submit" class="btn btn-danger m-1"><i class="fa-light fa-thumbs-up"></i> Unlike</button>
       </form>
       {{else}}
       <form action="/like/{{restaurant.id}}" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-primary m-1">Like</button>
+        <button type="submit" class="btn btn-primary m-1"><i class="fa-solid fa-thumbs-up"></i> Like</button>
       </form>
       {{/if}}
     </div>
@@ -51,7 +51,7 @@
     <h4><a href="/users/{{this.User.id}}">{{this.User.name}}</a></h4>
     {{#if ../user.isAdmin}}
     <form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="float-end">
-      <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除這則評論嗎?')">Delete</button>
+      <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除這則評論嗎?')"><i class="fa-solid fa-trash"></i> Delete</button>
     </form>
     {{/if}}
     <p>{{this.text}}</p>

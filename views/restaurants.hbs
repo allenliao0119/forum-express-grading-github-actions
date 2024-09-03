@@ -8,7 +8,7 @@
   </li>
   {{#each categories}}
   <li class="nav-item">
-    <a class="nav-link {{#ifEqual this.id ../categoryId}}active{{/ifEqual}}"
+    <a class="nav-link {{#ifEqual this.id ../categoryId}}active{{/ifEqual}} fw-bold"
       href="?categoryId={{this.id}}">{{this.name}}</a>
   </li>
   {{/each}}
@@ -23,7 +23,7 @@
       </a>
       <div class="card-body">
         <p class="card-text">
-          <a href="/restaurants/{{this.id}}">
+          <a href="/restaurants/{{this.id}}" class="fw-bold">
             {{this.name}}
           </a>
         </p>
@@ -32,20 +32,20 @@
         <div class="d-flex">
           {{#if isFavorited}}
           <form action="/favorite/{{this.id}}?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-danger m-1">移除最愛</button>
+            <button type="submit" class="btn btn-danger m-1"><i class="fa-regular fa-heart"></i> 移除最愛</button>
           </form>
           {{else}}
           <form action="/favorite/{{this.id}}" method="POST">
-            <button type="submit" class="btn btn-primary m-1">加到最愛</button>
+            <button type="submit" class="btn btn-primary m-1"><i class="fa-solid fa-heart"></i> 加到最愛</button>
           </form>
           {{/if}}
           {{#if isLiked}}
           <form action="/like/{{this.id}}?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-danger m-1">Unlike</button>
+            <button type="submit" class="btn btn-danger m-1"><i class="fa-light fa-thumbs-up"></i> Unlike</button>
           </form>
           {{else}}
           <form action="/like/{{this.id}}" method="POST">
-            <button type="submit" class="btn btn-primary m-1">Like</button>
+            <button type="submit" class="btn btn-primary m-1"><i class="fa-solid fa-thumbs-up"></i> Like</button>
           </form>
           {{/if}}
         </div>
