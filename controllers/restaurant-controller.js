@@ -1,4 +1,4 @@
-const { Restaurant, Category, Comment, User } = require('../models')
+const { Restaurant, Category, Comment, User, Favorite } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 const { getUser } = require('../helpers/auth-helpers')
 const restController = {
@@ -66,17 +66,24 @@ const restController = {
       .catch(err => next(err))
   },
   getDashboard: (req, res, next) => {
-    return Restaurant.findByPk(req.params.id, {
-      attributes: ['name', 'viewCounts'],
-      include: [Category, Comment]
-    })
-      .then(restaurant => {
+    return Promise.all([
+      Restaurant.findByPk(req.params.id, {
+        attributes: ['name', 'viewCounts'],
+        include: [Category, Comment]
+      }),
+      Favorite.findAndCountAll({
+        where: { restaurantId: req.params.id }
+      })
+    ])
+      .then(([restaurant, favorite]) => {
         if (!restaurant) throw new Error("restaurant didn't exist")
         restaurant = restaurant.toJSON()
         const commentCount = restaurant.Comments ? restaurant.Comments.length : '-'
+        const favoritedCount = favorite.count || '-'
         res.render('dashboard', {
           restaurant,
-          commentCount
+          commentCount,
+          favoritedCount
         })
       })
       .catch(err => next(err))
