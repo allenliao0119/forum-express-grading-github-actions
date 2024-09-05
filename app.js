@@ -6,7 +6,7 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 const passport = require('passport')
 const { getUser } = require('./helpers/auth-helpers')
-const routes = require('./routes')
+const { pages } = require('./routes')
 const path = require('path')
 
 const app = express()
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use(routes)
+app.use(pages)
 
 app.listen(port, () => {
   console.info(`Example app listening on port ${port}!`)

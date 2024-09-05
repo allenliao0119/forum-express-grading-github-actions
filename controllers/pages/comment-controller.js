@@ -1,5 +1,5 @@
-const { Comment, Restaurant, User } = require('../models')
-const { getUser } = require('../helpers/auth-helpers')
+const { Comment, Restaurant, User } = require('../../models')
+const { getUser } = require('../../helpers/auth-helpers')
 
 const commentController = {
   postComment: (req, res, next) => {
