@@ -26,7 +26,7 @@ const restaurantServices = {
         const data = restaurants.rows.map(restaurant => {
           return {
             ...restaurant,
-            description: restaurant.description.substring(0, DEFAULT_DESCRIPTION_LIMIT),
+            description: restaurant.description?.substring(0, DEFAULT_DESCRIPTION_LIMIT),
             isFavorited: req.user && favoritedRestaurantId.includes(restaurant.id),
             isLiked: req.user && likedRestaurants.includes(restaurant.id)
           }

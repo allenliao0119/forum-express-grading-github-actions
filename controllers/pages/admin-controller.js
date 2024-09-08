@@ -12,26 +12,11 @@ const adminController = {
       .then(categories => res.render('admin/create-restaurant', { categories }))
   },
   postRestaurant: (req, res, next) => {
-    const { name, tel, address, openingHours, description, categoryId } = req.body
-    if (!name) throw new Error('Restaurant name is required!')
-    const { file } = req
-    localFileHandler(file)
-      .then(filePath => {
-        return Restaurant.create({
-          name,
-          tel,
-          address,
-          openingHours,
-          description,
-          image: filePath || null,
-          categoryId
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', 'restaurant was successfully created')
-        res.redirect('/admin/restaurants')
-      })
-      .catch(err => next(err))
+    adminServices.postRestaurant(req, (err, data) => {
+      if (err) next(err)
+      req.flash('success_messages', 'restaurant was successfully created')
+      res.redirect('/admin/restaurants')
+    })
   },
   getRestaurant: (req, res, next) => {
     return Restaurant.findByPk(req.params.id, {
@@ -83,16 +68,11 @@ const adminController = {
       .catch(err => next(err))
   },
   deleteRestaurant: (req, res, next) => {
-    return Restaurant.findByPk(req.params.id)
-      .then(restaurant => {
-        if (!restaurant) throw new Error("Restaurant didn't exist!")
-        return restaurant.destroy()
-      })
-      .then(() => {
-        req.flash('success_messages', 'restaurant was successfully deleted')
-        res.redirect('/admin/restaurants')
-      })
-      .catch(err => next(err))
+    adminServices.deleteRestaurant(req, (err, data) => {
+      if (err) next(err)
+      req.flash('success_messages', 'restaurant was successfully deleted')
+      res.redirect('/admin/restaurants')
+    })
   },
   getUsers: (req, res, next) => {
     return User.findAll({

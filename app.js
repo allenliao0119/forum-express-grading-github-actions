@@ -17,6 +17,8 @@ app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelper }))
 app.set('view engine', 'hbs')
 
 app.use(methodOverride('_method'))
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false }))
 app.use(passport.initialize())

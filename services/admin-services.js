@@ -1,5 +1,6 @@
 const { Restaurant, Category } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
+const { localFileHandler } = require('../helpers/file-helpers')
 
 const adminServices = {
   getRestaurants: (req, callback) => {
@@ -21,6 +22,34 @@ const adminServices = {
           pagination
         })
       })
+      .catch(err => callback(err))
+  },
+  postRestaurant: (req, callback) => {
+    const { name, tel, address, openingHours, description, categoryId } = req.body
+    if (!name) throw new Error('Restaurant name is required!')
+    const { file } = req
+    localFileHandler(file)
+      .then(filePath => {
+        return Restaurant.create({
+          name,
+          tel,
+          address,
+          openingHours,
+          description,
+          image: filePath || null,
+          categoryId
+        })
+      })
+      .then(createdRestaurant => callback(null, { restaurant: createdRestaurant }))
+      .catch(err => callback(err))
+  },
+  deleteRestaurant: (req, callback) => {
+    return Restaurant.findByPk(req.params.id)
+      .then(restaurant => {
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        return restaurant.destroy()
+      })
+      .then(deletedRestaurant => callback(null, { restaurant: deletedRestaurant }))
       .catch(err => callback(err))
   }
 }

@@ -12,7 +12,6 @@ const { authenticated, authenticatedAdmin } = require('../../middlewares/auth')
 const admin = require('./modules/admin')
 const upload = require('../../middlewares/multer')
 
-router.use(express.urlencoded({ extended: true }))
 router.use('/upload', express.static(path.join(__dirname, 'upload')))
 router.use('/admin', authenticatedAdmin, admin)
 router.get('/signup', userController.signUpPage)
