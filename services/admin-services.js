@@ -43,6 +43,29 @@ const adminServices = {
       .then(createdRestaurant => callback(null, { restaurant: createdRestaurant }))
       .catch(err => callback(err))
   },
+  putRestaurant: (req, callback) => {
+    const { name, tel, address, openingHours, description, categoryId } = req.body
+    if (!name) throw new Error('Restaurant name is required!')
+    const { file } = req
+    return Promise.all([
+      Restaurant.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([restaurant, filePath]) => {
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        return restaurant.update({
+          name,
+          tel,
+          address,
+          openingHours,
+          description,
+          image: filePath || restaurant.image,
+          categoryId
+        })
+      })
+      .then(updatedRestaurant => callback(null, { restaurant: updatedRestaurant }))
+      .catch(err => callback(err))
+  },
   deleteRestaurant: (req, callback) => {
     return Restaurant.findByPk(req.params.id)
       .then(restaurant => {
