@@ -66,7 +66,7 @@ const restaurantServices = {
       })
       .catch(err => callback(err))
   },
-  getDashboard: (req, res, callback) => {
+  getDashboard: (req, callback) => {
     return Promise.all([
       Restaurant.findByPk(req.params.id, {
         attributes: ['name', 'viewCounts'],
@@ -81,7 +81,7 @@ const restaurantServices = {
         restaurant = restaurant.toJSON()
         const commentCount = restaurant.Comments ? restaurant.Comments.length : '-'
         const favoritedCount = favorite.count || '-'
-        res.render('dashboard', {
+        return callback(null, {
           restaurant,
           commentCount,
           favoritedCount
