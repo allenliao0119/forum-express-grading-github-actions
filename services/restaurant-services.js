@@ -123,7 +123,7 @@ const restaurantServices = {
       })
       .catch(err => callback(err))
   },
-  getTopRestaurants: (req, res, next) => {
+  getTopRestaurants: (req, callback) => {
     return Restaurant.findAll({
       include: [
         { model: User, as: 'FavoritedUsers' }
@@ -140,9 +140,9 @@ const restaurantServices = {
           })
           .sort((a, b) => b.favoritedCount - a.favoritedCount)
           .slice(0, 10)
-        res.render('top-restaurants', { restaurants: result })
+        return callback(null, { restaurants: result })
       })
-      .catch(err => next(err))
+      .catch(err => callback(err))
   }
 }
 
