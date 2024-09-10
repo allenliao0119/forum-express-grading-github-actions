@@ -14,9 +14,10 @@ router.use('/admin', authenticated, authenticatedAdmin, admin)
 router.post('/signin', passport.authenticate('local', { session: false }), userController.signIn)
 router.post('/signup', userController.signUp)
 
+router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 router.get('/restaurants', authenticated, restController.getRestaurants)
 
-router.get('/categories/:id', categoryController.getCategories)
+router.get('/categories/:id', authenticated, categoryController.getCategories)
 
 router.use('/', apiErrorHandler)
 
