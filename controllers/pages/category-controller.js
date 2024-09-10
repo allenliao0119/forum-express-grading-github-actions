@@ -1,49 +1,29 @@
-const { Category } = require('../../models')
+const categoryServices = require('../../services/category-services')
 
 const categoryController = {
   getCategories: (req, res, next) => {
-    Promise.all([
-      Category.findAll({ raw: true }),
-      req.params.id ? Category.findByPk(req.params.id, { raw: true }) : null
-    ])
-      .then(([categories, category]) => { res.render('admin/categories', { categories, category }) })
-      .catch(err => next(err))
+    categoryServices.getCategories(req, (err, { categories, category }) => err ? next(err) : res.render('admin/categories', { categories, category }))
   },
   postCategory: (req, res, next) => {
-    const { name } = req.body
-    if (!name) throw new Error('category name is required')
-    return Category.create({ name })
-      .then(() => {
-        req.flash('success_messages', 'category was successfully created')
-        res.redirect('/admin/categories')
-      })
-      .catch(err => next(err))
+    categoryServices.postCategory(req, res, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', 'category was successfully created')
+      res.redirect('/admin/categories')
+    })
   },
   putCategory: (req, res, next) => {
-    const { name } = req.body
-    if (!name) throw new Error('category name is required')
-    Category.findByPk(req.params.id)
-      .then(category => {
-        if (!category) throw new Error("category didn't exist")
-        return category.update({ name })
-      })
-      .then(() => {
-        req.flash('success_messages', 'category was successfully updated')
-        res.redirect('/admin/categories')
-      })
-      .catch(err => next(err))
+    categoryServices.putCategory(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', 'category was successfully updated')
+      res.redirect('/admin/categories')
+    })
   },
   deleteCategory: (req, res, next) => {
-    Category.findByPk(req.params.id)
-      .then(category => {
-        if (!category) throw new Error("category didn't exist")
-        return category.destroy()
-      })
-      .then(() => {
-        req.flash('success_messages', 'category and related restaurants were successfully deleted')
-        res.redirect('/admin/categories')
-      })
-      .catch(err => next(err))
+    categoryServices.deleteCategory(req, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', 'category and related restaurants were successfully deleted')
+      res.redirect('/admin/categories')
+    })
   }
 }
 module.exports = categoryController
