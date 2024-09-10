@@ -5,6 +5,7 @@ const passport = require('../../config/passport')
 const admin = require('./modules/admin')
 const restController = require('../../controllers/apis/restaurant-controller')
 const userController = require('../../controllers/apis/user-controller')
+const categoryController = require('../../controllers/apis/category-controller')
 const { apiErrorHandler } = require('../../middlewares/error-handler')
 const { authenticated, authenticatedAdmin } = require('../../middlewares/api-auth')
 
@@ -14,6 +15,8 @@ router.post('/signin', passport.authenticate('local', { session: false }), userC
 router.post('/signup', userController.signUp)
 
 router.get('/restaurants', authenticated, restController.getRestaurants)
+
+router.get('/categories/:id', categoryController.getCategories)
 
 router.use('/', apiErrorHandler)
 

@@ -74,7 +74,7 @@ const restController = {
         const DEFAULT_TEXT_LIMIT = 100
         const restaurantsData = restaurants.map(restaurant => {
           // 如果文字超過DEFAULT_TEXT_LIMIT，則擷取文字，並加上'...'表示文字未完
-          return (restaurant.description.length > DEFAULT_TEXT_LIMIT) ? ({ ...restaurant, description: restaurant.description.substring(0, DEFAULT_TEXT_LIMIT) + '...' }) : restaurant
+          return restaurant.description?.length > DEFAULT_TEXT_LIMIT ? ({ ...restaurant, description: restaurant.description.substring(0, DEFAULT_TEXT_LIMIT) + '...' }) : restaurant
         })
         const commentsData = comments.map(comment => {
           // 如果文字超過DEFAULT_TEXT_LIMIT，則擷取文字，並加上'...'表示文字未完

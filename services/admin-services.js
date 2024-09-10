@@ -1,4 +1,4 @@
-const { Restaurant, Category } = require('../models')
+const { Restaurant, Category, User } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 const { localFileHandler } = require('../helpers/file-helpers')
 
@@ -73,6 +73,27 @@ const adminServices = {
         return restaurant.destroy()
       })
       .then(deletedRestaurant => callback(null, { restaurant: deletedRestaurant }))
+      .catch(err => callback(err))
+  },
+  getUsers: (req, callback) => {
+    return User.findAll({
+      attributes: ['id', 'name', 'email', 'isAdmin'],
+      raw: true
+    })
+      .then(users => callback(null, { users }))
+      .catch(err => callback(err))
+  },
+  patchUser: (req, callback) => {
+    return User.findOne({
+      attributes: ['id', 'email', 'isAdmin'],
+      where: { id: req.params.id }
+    })
+      .then(user => {
+        if (!user) throw new Error("User didn't exist!")
+        if (user.email === 'root@example.com') throw new Error('禁止變更 root 權限')
+        return user.update({ isAdmin: !user.isAdmin }, { where: { id: user.id } })
+      })
+      .then(patchedUser => callback(null, { user: patchedUser }))
       .catch(err => callback(err))
   }
 }

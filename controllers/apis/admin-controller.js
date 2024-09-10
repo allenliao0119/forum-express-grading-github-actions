@@ -1,5 +1,4 @@
 const adminServices = require('../../services/admin-services')
-const { putRestaurant } = require('../pages/admin-controller')
 
 const adminController = {
   getRestaurants: (req, res, next) => {
@@ -13,6 +12,12 @@ const adminController = {
   },
   deleteRestaurant: (req, res, next) => {
     adminServices.deleteRestaurant(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
+  },
+  getUsers: (req, res, next) => {
+    adminServices.getUsers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
+  },
+  patchUser: (req, res, next) => {
+    adminServices.patchUser(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   }
 }
 
