@@ -20,6 +20,8 @@ router.get('/restaurants/:id/dashboard', authenticated, restController.getDashbo
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 router.get('/restaurants', authenticated, restController.getRestaurants)
 
+router.get('/users/:id', authenticated, userController.getUser)
+
 router.get('/categories/:id', authenticated, categoryController.getCategories)
 
 router.use('/', apiErrorHandler)

@@ -1,5 +1,4 @@
-const db = require('../../models')
-const { User, Comment, Restaurant, Favorite, Like, Followship } = db
+const { User, Comment, Restaurant, Favorite, Like, Followship } = require('../../models')
 const { localFileHandler } = require('../../helpers/file-helpers')
 const { getUser } = require('../../helpers/auth-helpers')
 const userServices = require('../../services/user-services')
@@ -27,43 +26,7 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    const userId = req.params.id
-    const isPersonal = Number(userId) === getUser(req).id
-    return Promise.all([
-      User.findByPk(userId, {
-        include: [
-          { model: Restaurant, as: 'FavoritedRestaurants' },
-          { model: User, as: 'Followers' },
-          { model: User, as: 'Followings' }
-        ]
-      }),
-      Comment.findAll({
-        where: { userId },
-        include: [Restaurant],
-        nest: true,
-        raw: true
-      })
-    ])
-      .then(([user, comments]) => {
-        const filtedComments = []
-        comments.forEach(comment => {
-          if (!filtedComments.some(c => c.Restaurant.id === comment.Restaurant.id)) {
-            filtedComments.push(comment)
-          }
-        })
-        console.log(filtedComments)
-        res.render('users/profile', {
-          user: user.toJSON(),
-          comments: filtedComments,
-          commentCount: comments.length,
-          favoritedCount: user.FavoritedRestaurants.length,
-          followerCount: user.Followers.length,
-          followingCount: user.Followings.length,
-          isPersonal
-        })
-        // console.log(comments)
-      })
-      .catch(err => next(err))
+    userServices.getUser(req, (err, data) => err ? next(err) : res.render('users/profile', data))
   },
   editUser: (req, res, next) => {
     if (Number(req.params.id) !== getUser(req).id) throw new Error('permission denied')
