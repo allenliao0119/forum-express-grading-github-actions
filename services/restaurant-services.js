@@ -89,8 +89,8 @@ const restaurantServices = {
       })
       .catch(err => callback(err))
   },
-  getFeeds: (req, res, next) => {
-    Promise.all([
+  getFeeds: (req, callback) => {
+    return Promise.all([
       Restaurant.findAll({
         include: [Category],
         limit: 20,
@@ -116,12 +116,12 @@ const restaurantServices = {
           // 如果文字超過DEFAULT_TEXT_LIMIT，則擷取文字，並加上'...'表示文字未完
           return (comment.text.length > DEFAULT_TEXT_LIMIT) ? ({ ...comment, text: comment.text.substring(0, DEFAULT_TEXT_LIMIT) } + '...') : comment
         })
-        res.render('feeds', {
+        return callback(null, {
           restaurants: restaurantsData,
           comments: commentsData
         })
       })
-      .catch(err => next(err))
+      .catch(err => callback(err))
   },
   getTopRestaurants: (req, res, next) => {
     return Restaurant.findAll({

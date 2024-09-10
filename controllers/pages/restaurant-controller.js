@@ -6,44 +6,13 @@ const restController = {
     restaurantServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('restaurants', data))
   },
   getRestaurant: (req, res, next) => {
-    restaurantServices.getRestaurant(req, (err, data) => err ? next(err) : res.render('restaurant', data))
+    restaurantServices.getRestaurant((err, data) => err ? next(err) : res.render('restaurant', data))
   },
   getDashboard: (req, res, next) => {
     restaurantServices.getDashboard(req, (err, data) => err ? next(err) : res.render('dashboard', data))
   },
   getFeeds: (req, res, next) => {
-    Promise.all([
-      Restaurant.findAll({
-        include: [Category],
-        limit: 20,
-        order: [['createdAt', 'DESC']],
-        raw: true,
-        nest: true
-      }),
-      Comment.findAll({
-        include: [Restaurant],
-        limit: 20,
-        order: [['createdAt', 'DESC']],
-        raw: true,
-        nest: true
-      })
-    ])
-      .then(([restaurants, comments]) => {
-        const DEFAULT_TEXT_LIMIT = 100
-        const restaurantsData = restaurants.map(restaurant => {
-          // 如果文字超過DEFAULT_TEXT_LIMIT，則擷取文字，並加上'...'表示文字未完
-          return restaurant.description?.length > DEFAULT_TEXT_LIMIT ? ({ ...restaurant, description: restaurant.description.substring(0, DEFAULT_TEXT_LIMIT) + '...' }) : restaurant
-        })
-        const commentsData = comments.map(comment => {
-          // 如果文字超過DEFAULT_TEXT_LIMIT，則擷取文字，並加上'...'表示文字未完
-          return (comment.text.length > DEFAULT_TEXT_LIMIT) ? ({ ...comment, text: comment.text.substring(0, DEFAULT_TEXT_LIMIT) } + '...') : comment
-        })
-        res.render('feeds', {
-          restaurants: restaurantsData,
-          comments: commentsData
-        })
-      })
-      .catch(err => next(err))
+    restaurantServices.getFeeds(req, (err, data) => err ? next(err) : res.render('feeds', data))
   },
   getTopRestaurants: (req, res, next) => {
     return Restaurant.findAll({
