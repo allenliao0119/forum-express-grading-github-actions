@@ -8,6 +8,7 @@ const userController = require('../../controllers/apis/user-controller')
 const categoryController = require('../../controllers/apis/category-controller')
 const { apiErrorHandler } = require('../../middlewares/error-handler')
 const { authenticated, authenticatedAdmin } = require('../../middlewares/api-auth')
+const upload = require('../../middlewares/multer')
 
 router.use('/admin', authenticated, authenticatedAdmin, admin)
 
@@ -21,6 +22,7 @@ router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 router.get('/restaurants', authenticated, restController.getRestaurants)
 
 router.get('/users/:id', authenticated, userController.getUser)
+router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
 router.get('/categories/:id', authenticated, categoryController.getCategories)
 

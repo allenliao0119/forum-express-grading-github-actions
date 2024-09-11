@@ -17,7 +17,6 @@ const categoryServices = {
     if (!name) throw new Error('category name is required')
     return Category.create({ name })
       .then(data => {
-        console.log(data)
         return callback(null, { category: data.toJSON() })
       })
       .catch(err => callback(err))
