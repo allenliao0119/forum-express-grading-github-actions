@@ -27,6 +27,9 @@ const userController = {
   },
   putUser: (req, res, next) => {
     userServices.putUser(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
+  },
+  getTopUsers: (req, res, next) => {
+    userServices.getTopUsers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   }
 }
 
