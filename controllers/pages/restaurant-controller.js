@@ -4,7 +4,7 @@ const restController = {
     restaurantServices.getRestaurants(req, (err, data) => err ? next(err) : res.render('restaurants', data))
   },
   getRestaurant: (req, res, next) => {
-    restaurantServices.getRestaurant((err, data) => err ? next(err) : res.render('restaurant', data))
+    restaurantServices.getRestaurant(req, (err, data) => err ? next(err) : res.render('restaurant', data))
   },
   getDashboard: (req, res, next) => {
     restaurantServices.getDashboard(req, (err, data) => err ? next(err) : res.render('dashboard', data))

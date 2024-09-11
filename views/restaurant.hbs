@@ -28,7 +28,7 @@
       {{/if}}
       {{#if isLiked}}
       <form action="/like/{{restaurant.id}}?_method=DELETE" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-danger m-1"><i class="fa-light fa-thumbs-up"></i> Unlike</button>
+        <button type="submit" class="btn btn-danger m-1"><i class="fa-solid fa-thumbs-down"></i> Unlike</button>
       </form>
       {{else}}
       <form action="/like/{{restaurant.id}}" method="POST" style="display: inline;">

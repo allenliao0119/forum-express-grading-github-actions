@@ -42,7 +42,7 @@ const restaurantServices = {
       .catch(err => callback(err))
   },
   getRestaurant: (req, callback) => {
-    Restaurant.findByPk(req.params.id, {
+    return Restaurant.findByPk(req.params.id, {
       include: [
         Category,
         { model: Comment, include: User },

@@ -29,8 +29,8 @@
           {{followerCount}} 位追蹤者
         </div>
         <div class="card-body row d-flex justify-content-start p-3 gx-auto gx-lg-1">
-          {{#if Followers}}
-          {{#each Followers}}
+          {{#if user.Followers}}
+          {{#each user.Followers}}
           <div class="col-lg-2 col-4 mt-1">
             <a href="/users/{{this.id}}">
               <img src="{{this.image}}" class="w-100">
