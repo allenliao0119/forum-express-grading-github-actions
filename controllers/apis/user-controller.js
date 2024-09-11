@@ -30,6 +30,12 @@ const userController = {
   },
   getTopUsers: (req, res, next) => {
     userServices.getTopUsers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
+  },
+  addFavorite: (req, res, next) => {
+    userServices.addFavorite(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
+  },
+  removeFavorite: (req, res, next) => {
+    userServices.removeFavorite(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   }
 }
 
