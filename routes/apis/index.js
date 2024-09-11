@@ -6,6 +6,7 @@ const admin = require('./modules/admin')
 const restController = require('../../controllers/apis/restaurant-controller')
 const userController = require('../../controllers/apis/user-controller')
 const categoryController = require('../../controllers/apis/category-controller')
+const commentController = require('../../controllers/apis/comment-controller')
 const { apiErrorHandler } = require('../../middlewares/error-handler')
 const { authenticated, authenticatedAdmin } = require('../../middlewares/api-auth')
 const upload = require('../../middlewares/multer')
@@ -24,6 +25,9 @@ router.get('/restaurants', authenticated, restController.getRestaurants)
 router.get('/users/top', authenticated, userController.getTopUsers)
 router.get('/users/:id', authenticated, userController.getUser)
 router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+
+router.delete('/comments/:id', authenticated, authenticatedAdmin, commentController.deleteComment)
+router.post('/comments', authenticated, commentController.postComment)
 
 router.get('/categories/:id', authenticated, categoryController.getCategories)
 

@@ -62,7 +62,8 @@ const userController = {
   getTopUsers: (req, res, next) => {
     userServices.getTopUsers(req, (err, data) => {
       console.log('data:', data)
-      err ? next(err) : res.render('top-users', data)})
+      err ? next(err) : res.render('top-users', data)
+    })
   },
   addFollowing: (req, res, next) => {
     userServices.addFollowing(req, (err, data) => {
