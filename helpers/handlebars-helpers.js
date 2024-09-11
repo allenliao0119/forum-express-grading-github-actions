@@ -14,5 +14,6 @@ module.exports = {
   },
   ifEqual: function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this)
-  }
+  },
+  ifNoImage: imageUrl => imageUrl || 'https://fakeimg.pl/320x240/?text=No%20image'
 }

@@ -18,7 +18,7 @@
           {{relativeTimeFromNow this.createdAt}}
         </div>
         <div class="col-4 mb-2">
-          <img src="{{this.image}}" class="w-100">
+          <img src="{{ifNoImage this.image}}" class="w-100">
         </div>
         <hr>
         {{/each}}
@@ -39,10 +39,9 @@
           <p class="my-4" style="white-space: break-spaces;">{{this.text}}</p>
           - <a class="link-secondary" href="/users/{{this.User.id}}">{{this.User.name}}</a>
           <small>at {{relativeTimeFromNow this.createdAt}}</small>
-          
         </div>
         <div class="col-4 mb-2">
-          <img src="{{this.Restaurant.image}}" class="w-100">
+          <img src="{{ifNoImage this.Restaurant.image}}" class="w-100">
         </div>
         <hr>
         {{/each}}

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row border border-1 rounded p-2 h-75 shadow-sm">
     <div class="col-xxl-4 col-md-6 col-sm-12 m-auto">
-      <img src="{{user.image}}" alt="user image" class="img h-100 mw-100">
+      <img src="{{ifNoImage user.image}}" alt="user image" class="img h-100 mw-100">
     </div>
     <div class="col-xxl-8 col-md-6 col-sm-12">
       <div class="row">
@@ -33,7 +33,7 @@
           {{#each user.Followers}}
           <div class="col-lg-2 col-4 mt-1">
             <a href="/users/{{this.id}}">
-              <img src="{{this.image}}" class="w-100">
+              <img src="{{ifNoImage this.image}}" class="w-100">
             </a>
           </div>
           {{/each}}
@@ -52,7 +52,7 @@
           {{#each user.Followings}}
           <div class="col-lg-2 col-4 mt-1 me-1">
             <a href="/users/{{this.id}}">
-              <img src="{{this.image}}" class="w-100">
+              <img src="{{ifNoImage this.image}}" class="w-100">
             </a>
           </div>
           {{/each}}
@@ -73,7 +73,7 @@
           {{#each comments}}
           <div class="col-lg-1 col-2 mt-1 me-1">
             <a href="/restaurants/{{this.Restaurant.id}}">
-              <img src="{{this.Restaurant.image}}" class="w-100">
+              <img src="{{ifNoImage this.Restaurant.image}}" class="w-100">
             </a>
           </div>
           {{/each}}
@@ -92,7 +92,7 @@
           {{#each user.FavoritedRestaurants}}
           <div class="col-lg-1 col-3 mt-1">
             <a href="/restaurants/{{this.id}}">
-              <img src="{{this.image}}" class="w-100">
+              <img src="{{ifNoImage this.image}}" class="w-100">
             </a>
           </div>
           {{/each}}
