@@ -1,9 +1,11 @@
 # 餐廳評論網 (Restaurant Forum)
-此專案為
-運用 Node.js 建立本機伺服器，並透過 Express 與 Template Engine (Handlebars) 建立餐廳評論網，以 Sequelize 串接資料庫及進行CRUD操作，最後藉由 passport.js 及相關 Strategy 進行使用者帳戶認證或串接第三方登入認證。
+此專案為 Alpha Camp Dev C4 後端專修 指定作業之一。
+目的為運用 Node.js 建立本機伺服器，並透過 Express 與 Template Engine (Handlebars) 建立RESTful API及餐廳評論網，以 Sequelize 串接資料庫及進行CRUD操作，最後藉由 passport.js 及相關 Strategy 進行使用者帳戶認證或串接第三方登入認證。
 
 
 ## 版本
+- v2.0.1 (2024.09.16)
+  - 增加「使用Facebook登入」功能
 - v2.0.0 (2024.09.14)
   - 增加「瀏覽最新動態」、「瀏覽美食達人」及「瀏覽人氣餐廳」功能。
   - 增加「追蹤其他使用者」及「評論餐廳」功能。
@@ -13,6 +15,7 @@
 
 ## 功能 (Features)
 - 使用者可以註冊/登入/登出網站
+- 使用者可以透過帳號密碼，或是Facebook第三方身分認證進行登入。
 - 一般使用者登入後，可進行以下功能操作：
   - 瀏覽所有餐廳，或使用分類篩選餐廳。
   - 瀏覽個別餐廳詳細資料，留下評論。
@@ -107,7 +110,7 @@ npm run start
 
 當 Terminal 出現以下提示，即代表伺服器啟動成功：  
 `App is listening on port 3000!`
-⚠️ **執行成功時，提示訊息會依照您在.env中設定的PORT顯示監聽對應的PORT**   
+⚠️ **執行成功時，提示訊息會依照您在.env中設定的PORT，對應顯示正在監聽的PORT；預設為3000。**   
 現在，您可開啟任一瀏覽器輸入 http://localhost:3000 來使用餐廳評論網頁。
 
 

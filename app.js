@@ -9,7 +9,7 @@ const handlebarsHelper = require('./helpers/handlebars-helpers')
 const flash = require('connect-flash')
 const session = require('express-session')
 
-const passport = require('passport')
+const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const { getUser } = require('./helpers/auth-helpers')
 const { pages, apis } = require('./routes')

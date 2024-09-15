@@ -16,6 +16,8 @@ router.use('/upload', express.static(path.join(__dirname, 'upload')))
 
 router.use('/admin', authenticatedAdmin, admin)
 
+router.get('/oauth2/facebook/redirect', passport.authenticate('facebook', { failureRedirect: '/signin', failureMessage: true }))
+router.get('/signin/facebook', passport.authenticate('facebook', { scope: ['email'] }))
 router.get('/signup', userController.signUpPage)
 router.get('/signin', userController.signInPage)
 router.get('/logout', userController.signOut)
