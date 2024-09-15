@@ -5,6 +5,12 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "db:setup": "node create-db.js && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "db:create": "node create-db.js",
+    "db:migrate": "npx sequelize db:migrate",
+    "db:seed:all": "npx sequelize db:seed:all",
+    "db:migrate:undo": "npx sequelize db:migrate:undo",
+    "db:seed:undo": "npx sequelize db:seed:undo",
     "lint": "eslint \"**/*.js\" --fix",
     "test": "mocha tests --exit --recursive --timeout 5000"
   },
