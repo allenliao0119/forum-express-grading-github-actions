@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-md-12">
     <h1>{{restaurant.name}}</h1>
-    <p>{{restaurant.Category.name}}</p>
+    <p>[{{restaurant.Category.name}}]</p>
   </div>
   <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{ifNoImage restaurant.image}}"
-      style="width: 250px; max-height: 180px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+    <img class="img-responsive center-block w-100 rounded" src="{{ifNoImage restaurant.image}}"
+      style="transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
     <br>
-    <div class="well">
+    <div class="well mt-3">
       <ul class="list-unstyled">
         <li><strong>Opening Hour:</strong> {{restaurant.openingHours}}</li>
         <li><strong>Tel:</strong> {{restaurant.tel}}</li>
@@ -16,35 +16,34 @@
     </div>
     
     <div>
-      <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-primary m-1"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+      <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-primary mx-0 mb-1"><i class="fa-solid fa-gauge"></i> Dashboard</a>
       {{#if isFavorited}}
       <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-danger m-1"><i class="fa-regular fa-heart"></i> 移除最愛</button>
+        <button type="submit" class="btn btn-danger mx-0 mb-1"><i class="fa-regular fa-heart"></i> 移除最愛</button>
       </form>
       {{else}}
       <form action="/favorite/{{restaurant.id}}" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-primary m-1"><i class="fa-solid fa-heart"></i> 加到最愛</button>
+        <button type="submit" class="btn btn-primary mx-0 mb-1"><i class="fa-solid fa-heart"></i> 加到最愛</button>
       </form>
       {{/if}}
       {{#if isLiked}}
       <form action="/like/{{restaurant.id}}?_method=DELETE" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-danger m-1"><i class="fa-solid fa-thumbs-down"></i> Unlike</button>
+        <button type="submit" class="btn btn-danger mx-0 mb-1"><i class="fa-solid fa-thumbs-down"></i> Unlike</button>
       </form>
       {{else}}
       <form action="/like/{{restaurant.id}}" method="POST" style="display: inline;">
-        <button type="submit" class="btn btn-primary m-1"><i class="fa-solid fa-thumbs-up"></i> Like</button>
+        <button type="submit" class="btn btn-primary mx-0 mb-1"><i class="fa-solid fa-thumbs-up"></i> Like</button>
       </form>
       {{/if}}
     </div>
   </div>
-  <div class="col-md-8">
+  <div class="col-md-8 mt-2">
     <p style="white-space: break-spaces;">{{restaurant.description}}</p>
   </div>
   <hr class="mt-2">
 </div>
 {{!-- comment --}}
 
-{{user.name}}
 <h3 class="mb-3">所有評論：</h3>
 {{#each restaurant.Comments}}
   <blockquote class="blockquote mb-0">
@@ -54,7 +53,7 @@
       <button type="submit" class="btn btn-danger" onclick="return confirm('確定要刪除這則評論嗎?')"><i class="fa-solid fa-trash"></i> Delete</button>
     </form>
     {{/if}}
-    <p>{{this.text}}</p>
+    <p style="font-size: 16px;">{{this.text}}</p>
     <footer class="blockquote-footer">{{relativeTimeFromNow this.createdAt}}</footer>
   </blockquote>
   <hr />

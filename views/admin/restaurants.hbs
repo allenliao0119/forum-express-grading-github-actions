@@ -26,7 +26,7 @@
       <td>{{this.Category.name}}</td>
       <td>
         <button type="button" class="btn btn-link">
-          <a class="btn btn-link link-primary" href="/admin/restaurants/{{this.id}}">
+          <a class="btn btn-link link-primary p-2" href="/admin/restaurants/{{this.id}}">
             Show
           </a>
         </button>
@@ -35,8 +35,8 @@
             Edit
           </a>
         </button>
-        <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link link-danger" onclick="return confirm(`確定要刪除{{this.name}}嗎?`)">Delete</button>
+        <form class="p-2" action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-link link-danger py-3" onclick="return confirm(`確定要刪除{{this.name}}嗎?`)">Delete</button>
         </form>
       </td>
     </tr>
