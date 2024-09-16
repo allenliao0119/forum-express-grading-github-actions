@@ -12,6 +12,13 @@
   - UI調整。
 - v1.0.0 (2024.07.20)
 
+## 測試帳號 (Test Accounts)
+- 網站管理者
+  - 帳號: root@example.com / 密碼: 12345678
+- 一般使用者
+  - 帳號: user1@example.com / 密碼: 12345678
+  - 帳號: user2@example.com / 密碼: 12345678
+  
 
 ## 功能 (Features)
 - 使用者可以註冊/登入/登出網站
@@ -112,6 +119,7 @@ npm run start
 `App is listening on port 3000!`
 ⚠️ **執行成功時，提示訊息會依照您在.env中設定的PORT，對應顯示正在監聽的PORT；預設為3000。**   
 現在，您可開啟任一瀏覽器輸入 http://localhost:3000 來使用餐廳評論網頁。
+
 
 
 ## 使用工具 (Tools)
