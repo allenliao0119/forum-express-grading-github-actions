@@ -47,6 +47,10 @@
   - 刪除評論。
 
 
+## 實體關係圖 (ERD)
+![image](public/images/restaurant-forum-ERD.jpeg)
+
+
 ## 執行環境 (RTE)
 [Node.js](https://nodejs.org/) (v14.16.0)  
 [MySQL](https://dev.mysql.com/downloads/mysql/) (v8.0.15)  
