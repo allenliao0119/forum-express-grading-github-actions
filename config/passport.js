@@ -26,29 +26,32 @@ passport.use(new LocalStrategy(
   }
 ))
 
-passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_APP_ID,
-  clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: process.env.FACEBOOK_REDIRECT_URL,
-  profileFields: ['displayName', 'email']
-},
-(accessToken, refreshToken, profile, cb) => {
-  return User.findOne({ where: { email: profile.emails[0].value } })
-    .then(user => {
-      if (user) return cb(null, user)
-      const randomPasspword = Math.random().toString(36)
-      bcrypt.hash(randomPasspword, 10)
-        .then(hash => {
-          return User.create({
-            name: profile.displayName,
-            email: profile.emails[0].value,
-            password: hash
+// Only initialize Facebook strategy if credentials are provided
+if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
+  passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: process.env.FACEBOOK_REDIRECT_URL,
+    profileFields: ['displayName', 'email']
+  },
+  (accessToken, refreshToken, profile, cb) => {
+    return User.findOne({ where: { email: profile.emails[0].value } })
+      .then(user => {
+        if (user) return cb(null, user)
+        const randomPasspword = Math.random().toString(36)
+        bcrypt.hash(randomPasspword, 10)
+          .then(hash => {
+            return User.create({
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              password: hash
+            })
           })
-        })
-        .then(user => cb(null, user))
-    })
-    .catch(err => cb(err))
-}))
+          .then(user => cb(null, user))
+      })
+      .catch(err => cb(err))
+  }))
+}
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
