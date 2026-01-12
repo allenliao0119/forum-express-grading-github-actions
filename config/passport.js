@@ -53,21 +53,24 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
   }))
 }
 
-passport.use(new JWTStrategy({
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET
-}, (jwtPayload, cb) => {
-  User.findByPk(jwtPayload.id, {
-    include: [
-      { model: Restaurant, as: 'FavoritedRestaurants' },
-      { model: Restaurant, as: 'LikedRestaurants' },
-      { model: User, as: 'Followers' },
-      { model: User, as: 'Followings' }
-    ]
-  })
-    .then(user => cb(null, user))
-    .catch(err => cb(err))
-}))
+// Only initialize JWT strategy if secret is provided
+if (process.env.JWT_SECRET) {
+  passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.JWT_SECRET
+  }, (jwtPayload, cb) => {
+    User.findByPk(jwtPayload.id, {
+      include: [
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: Restaurant, as: 'LikedRestaurants' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
+    })
+      .then(user => cb(null, user))
+      .catch(err => cb(err))
+  }))
+}
 
 passport.serializeUser((user, cb) => {
   return cb(null, user.id)
